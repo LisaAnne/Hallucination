@@ -24,7 +24,7 @@ If you do not already have them, they can be downloaded [here](http://images.coc
 
 **Replicating Results**
 
-After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py``` and ```table3.py```.
+After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py``` and ```table3.py``` (example usage ```python table1.py```).
 These scripts call on ```utils/chair.py``` to compute the CHAIR metric.  See below for more details on ```utils/chair.py```.
 
 **Evaluating CHAIR**
@@ -36,7 +36,7 @@ Example usage is:
 
 ```python utils/chair.py --cap_file generated_sentences/fc_beam5_test.json --coco_path coco```
 
-where ```cap_file``` corresponds to a json file with your generated captions and ```coco_path``` points to where MSCOCO annoations are stored.
+where ```cap_file``` corresponds to a json file with your generated captions and ```coco_path``` points to where MSCOCO annotations are stored.
 
 We expect generated sentences to be stored as a decitionary with the following keys:
 
