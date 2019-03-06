@@ -63,4 +63,4 @@ Within this framework, we wrote code for the LRCN model as well as the topdown d
 This code is available upon request.
 For the top down model with bounding boxes, we used the code [here](https://github.com/peteanderson80/Up-Down-Captioner).
 For the Neural Baby Talk model, we used the code [here](https://github.com/jiasenlu/NeuralBabyTalk).
-For the GAN based model, we used the sentences from the apper [here](https://arxiv.org/abs/1703.10476).  Sentences were obtained directly from the author (we did not train the GAN model).
+For the GAN based model, we used the sentences from the paper [here](https://arxiv.org/abs/1703.10476).  Sentences were obtained directly from the author (we did not train the GAN model).
