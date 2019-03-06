@@ -8,6 +8,12 @@ import lm_consistency as LM
 import im_consistency as IM
 
 def combine_coco_captions(annotation_path):
+
+    if not os.path.exists('%s/captions_%s2014.json' %(annotation_path, 'val')):
+        raise Exception("Please download MSCOCO caption annotations for val set")
+    if not os.path.exists('%s/captions_%s2014.json' %(annotation_path, 'train')):
+        raise Exception("Please download MSCOCO caption annotations for train set")
+
     val_caps = json.load(open('%s/captions_%s2014.json' %(annotation_path, 'val')))
     train_caps = json.load(open('%s/captions_%s2014.json' %(annotation_path, 'train')))
     all_caps = {'info': train_caps['info'],
@@ -18,6 +24,12 @@ def combine_coco_captions(annotation_path):
     return all_caps 
 
 def combine_coco_instances(annotation_path):
+
+    if not os.path.exists('%s/instances_%s2014.json' %(annotation_path, 'val')):
+        raise Exception("Please download MSCOCO instance annotations for val set")
+    if not os.path.exists('%s/instances_%s2014.json' %(annotation_path, 'train')):
+        raise Exception("Please download MSCOCO instance annotations for train set")
+
     val_instances = json.load(open('%s/instances_%s2014.json' %(annotation_path, 'val')))
     train_instances = json.load(open('%s/instances_%s2014.json' %(annotation_path, 'train')))
     all_instances = {'info': train_instances['info'],

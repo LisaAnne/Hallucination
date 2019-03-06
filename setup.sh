@@ -8,7 +8,6 @@ rm -r generated_sentences.zip
 #Download 
 mkdir output
 mkdir output/hallucination
-mkdir output/image_classfier
 mkdir output/language_model_blank_input
 cd output
 wget https://people.eecs.berkeley.edu/~lisa_anne/hallucination/intermediate_image.zip
