@@ -12,9 +12,9 @@ from misc import *
 
 def get_label_dicts(robust=False):
     if robust:
-        label_dict = 'data/classifier_output_robust.p'
+        label_dict = 'output/image_classifier/classifier_output_robust.p'
     else:
-        label_dict = 'data/classifier_output.p'
+        label_dict = 'output/image_classifier/classifier_output.p'
     predicted_label_dict = pkl.load(open(label_dict, 'rb'))
     gt_label_dict = pkl.load(open('data/gt_labels.p', 'rb'))
     
