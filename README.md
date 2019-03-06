@@ -25,7 +25,7 @@ Our code also relies on the python [natural language toolkit (nltk)](https://www
 
 **Replicating Results**
 
-After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py```, ```table3.py```, ```table4.py``` and ```figure6.py``` (example usage ```python table1.py --annotation_path PATH_TO_COCO_ANNOTATIONS``` where --annotation_path default is ```coco/annotations```).
+After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py```, ```table3.py```, ```table4.py``` and ```figure6.py``` (example usage ```python table1.py --annotation_path PATH_TO_COCO_ANNOTATIONS``` where ```coco/annotations``` is the default for ```--annotation_path```).
 If you would like to run ```figure4.py``` you will need to download some intermediate features for computing the image consistency [here](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4).
 Place this under ```outputs``` and unzip the file.
 These scripts call on ```utils/chair.py``` to compute the CHAIR metric.  See below for more details on ```utils/chair.py```.
