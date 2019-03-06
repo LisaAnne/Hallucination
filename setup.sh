@@ -12,7 +12,7 @@ wget https://people.eecs.berkeley.edu/~lisa_anne/hallucination/intermediate_imag
 unzip intermediate_image.zip
 rm -r intermediate_image.zip
 
-cd ../data
+cd data
 wget https://people.eecs.berkeley.edu/~lisa_anne/hallucination/gt_labels.p
 wget https://people.eecs.berkeley.edu/~lisa_anne/hallucination/vocab.p
 
