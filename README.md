@@ -55,3 +55,12 @@ To compute language and image consistency, we trained an classifier to predict c
 You can access the labels predicted by our language model in ```outputs/image_classifier``` and the words predicted by our language model [here](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4).
 Once you have these intermediate features you can look at ```utils/lm_consistency.py``` and ```utils/im_consistency.py``` to understand how these metrics are computed.
 Running ```figure4.py``` will outputs the results from our paper (constructing the actual bar plot is left as an exercise to the reader).
+
+**Captioning Models**
+
+We generated sentences for the majority of models by training open source models available [here](https://github.com/ruotianluo/self-critical.pytorch).
+Within this framework, we wrote code for the LRCN model as well as the topdown deconstructed models (Table 3 in the paper).
+This code is available upon request.
+For the top down model with bounding boxes, we used the code [here](https://github.com/peteanderson80/Up-Down-Captioner).
+For the Neural Baby Talk model, we used the code [here](https://github.com/jiasenlu/NeuralBabyTalk).
+For the GAN based model, we used the sentences from the apper [here](https://arxiv.org/abs/1703.10476).  Sentences were obtained directly from the author (we did not train the GAN model).
