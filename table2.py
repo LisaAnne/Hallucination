@@ -2,7 +2,7 @@ from utils import chair
 import argparse
     
 parser = argparse.ArgumentParser()
-parser.add_argument("--coco_path", type=str, default='coco')
+parser.add_argument("--annotation_path", type=str, default='coco/annotations')
 args = parser.parse_args()
 
 sentence_template = 'generated_sentences/%s.json'
@@ -12,7 +12,7 @@ table2_tags = [('FC', 'fc-robust_beam5_test'),
 
 _, imids, _ = chair.load_generated_captions(sentence_template %table2_tags[0][1])
 
-evaluator = chair.CHAIR(imids, args.coco_path) 
+evaluator = chair.CHAIR(imids, args.annotation_path) 
 evaluator.get_annotations()
 
 print "\t\tCross Entropy\t\t\t"

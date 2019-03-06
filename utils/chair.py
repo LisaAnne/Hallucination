@@ -1,12 +1,10 @@
 import sys
 from nltk.stem import *
-from nltk.corpus import wordnet as wn
 import nltk
 import json
 from pattern.en import singularize
-from pattern.en import tag 
-import pdb
 import argparse
+from misc import *
 
 lemma = nltk.wordnet.WordNetLemmatizer()
 
@@ -31,7 +29,7 @@ class CHAIR(object):
         #Some hard coded rules for implementing CHAIR metrics on MSCOCO
         
         #common 'double words' in MSCOCO that should be treated as a single word
-        coco_double_words = ['motor bike', 'motor cycle', 'air plane', 'traffic light', 'street light', 'traffic signal', 'stop light', 'fire hydrant', 'stop sign', 'parking meter', 'suit case', 'sports ball', 'baseball bat', 'baseball glove', 'tennis racket', 'wine glass', 'hot dog', 'cell phone', 'mobile phone', 'teddy bear', 'hair drier', 'potted plant', 'bow tie', 'laptop computer', 'stove top oven', 'hot dog', 'teddy bear', 'home plate']
+        coco_double_words = ['motor bike', 'motor cycle', 'air plane', 'traffic light', 'street light', 'traffic signal', 'stop light', 'fire hydrant', 'stop sign', 'parking meter', 'suit case', 'sports ball', 'baseball bat', 'baseball glove', 'tennis racket', 'wine glass', 'hot dog', 'cell phone', 'mobile phone', 'teddy bear', 'hair drier', 'potted plant', 'bow tie', 'laptop computer', 'stove top oven', 'hot dog', 'teddy bear', 'home plate', 'train track']
         
         #Hard code some rules for special cases in MSCOCO
         #qualifiers like 'baby' or 'adult' animal will lead to a false fire for the MSCOCO object 'person'.  'baby bird' --> 'bird'.
@@ -77,26 +75,30 @@ class CHAIR(object):
         #replace double words
         i = 0
         double_words = []
+        idxs = []
         while i < len(words):
+           idxs.append(i) 
            double_word = ' '.join(words[i:i+2])
            if double_word in self.double_word_dict: 
                double_words.append(self.double_word_dict[double_word])
                i += 2
            else:
                double_words.append(words[i])
-               i += 1 
+               i += 1
         words = double_words
     
-        #toilet seat is not chair
+        #toilet seat is not chair (sentences like "the seat of the toilet" will fire for "chair" if we do not include this line)
         if ('toilet' in words) & ('seat' in words): words = [word for word in words if word != 'seat']
     
         #get synonyms for all words in the caption
+        idxs = [idxs[idx] for idx, word in enumerate(words) \
+                if word in set(self.mscoco_objects)]
         words = [word for word in words if word in set(self.mscoco_objects)]
         node_words = []
         for word in words:
             node_words.append(self.inverse_synonym_dict[word])
         #return all the MSCOCO objects in the caption
-        return words, node_words
+        return words, node_words, idxs, double_words
 
     def get_annotations_from_segments(self):
         '''
@@ -127,7 +129,7 @@ class CHAIR(object):
         Add objects taken from MSCOCO ground truth captions 
         '''
 
-        coco_caps = json.load(open(self.coco_path + '/captions_all2014.json'))
+        coco_caps = combine_coco(self.coco_path)
         caption_annotations = coco_caps['annotations']
 
         for i, annotation in enumerate(caption_annotations):
@@ -135,7 +137,7 @@ class CHAIR(object):
                               %(i, len(coco_caps['annotations'])))
             imid = annotation['image_id']
             if imid in self.imid_to_objects:
-                words, node_words = self.caption_to_words(annotation['caption'])
+                _, node_words, _, _ = self.caption_to_words(annotation['caption'])
                 self.imid_to_objects[imid].update(node_words)
         print "\n"
 
@@ -143,6 +145,7 @@ class CHAIR(object):
             self.imid_to_objects[imid] = set(self.imid_to_objects[imid])
 
     def get_annotations(self):
+
         '''
         Get annotations from both segmentation and captions.  Need both annotation types for CHAIR metric.
         '''
@@ -173,14 +176,17 @@ class CHAIR(object):
             cap = cap_eval['caption']
             imid = cap_eval['image_id']
     
-            #get all words in the caption, as well as all synonyms
-            words, node_words = self.caption_to_words(cap) 
-    
+            #get all words in the caption, as well as corresponding node word
+            words, node_words, idxs, raw_words = self.caption_to_words(cap) 
+ 
             gt_objects = imid_to_objects[imid]
             cap_dict = {'image_id': cap_eval['image_id'], 
                         'caption': cap,
-                        'hallucinated_words': [],
-                        'gt_objects': list(gt_objects),
+                        'mscoco_hallucinated_words': [],
+                        'mscoco_gt_words': list(gt_objects),
+                        'mscoco_generated_words': list(node_words),
+                        'hallucination_idxs': [], 
+                        'words': raw_words 
                         }
    
             cap_dict['metrics'] = {'Bleu_1': cap_eval['Bleu_1'],
@@ -197,10 +203,11 @@ class CHAIR(object):
             #count hallucinated words
             coco_word_count += len(node_words) 
             hallucinated = False
-            for word, node_word in zip(words, node_words):
+            for word, node_word, idx in zip(words, node_words, idxs):
                 if node_word not in gt_objects:
                     hallucinated_word_count += 1 
-                    cap_dict['hallucinated_words'].append((word, node_word))
+                    cap_dict['mscoco_hallucinated_words'].append((word, node_word))
+                    cap_dict['hallucination_idxs'].append(idx)
                     hallucinated = True      
     
             #count hallucinated caps
@@ -208,10 +215,10 @@ class CHAIR(object):
             if hallucinated:
                num_hallucinated_caps += 1
     
-            cap_dict['metrics']['chair_s'] = int(hallucinated)
-            cap_dict['metrics']['chair_i'] = 0
+            cap_dict['metrics']['CHAIRs'] = int(hallucinated)
+            cap_dict['metrics']['CHAIRi'] = 0.
             if len(words) > 0:
-                cap_dict['metrics']['chair_i'] = len(cap_dict['hallucinated_words'])/float(len(words))
+                cap_dict['metrics']['CHAIRi'] = len(cap_dict['mscoco_hallucinated_words'])/float(len(words))
    
             output['sentences'].append(cap_dict)
  
@@ -245,7 +252,7 @@ def load_generated_captions(cap_file):
 
 def save_hallucinated_words(cap_file, cap_dict): 
     tag = cap_file.split('/')[-1] 
-    with open('output/hallucinated_words_%s' %tag, 'w') as f:
+    with open('output/hallucination/hallucinated_words_%s' %tag, 'w') as f:
         json.dump(cap_dict, f)
 
 def print_metrics(hallucination_cap_dict, quiet=False):
@@ -267,7 +274,7 @@ def print_metrics(hallucination_cap_dict, quiet=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--cap_file", type=str, default='')
-    parser.add_argument("--coco_path", type=str, default='coco')
+    parser.add_argument("--annotation_path", type=str, default='coco/annotations')
     args = parser.parse_args()
 
     _, imids, _ = load_generated_captions(args.cap_file)
