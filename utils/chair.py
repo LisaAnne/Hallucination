@@ -8,6 +8,40 @@ from misc import *
 
 lemma = nltk.wordnet.WordNetLemmatizer()
 
+def combine_coco_captions(annotation_path):
+
+    if not os.path.exists('%s/captions_%s2014.json' %(annotation_path, 'val')):
+        raise Exception("Please download MSCOCO caption annotations for val set")
+    if not os.path.exists('%s/captions_%s2014.json' %(annotation_path, 'train')):
+        raise Exception("Please download MSCOCO caption annotations for train set")
+
+    val_caps = json.load(open('%s/captions_%s2014.json' %(annotation_path, 'val')))
+    train_caps = json.load(open('%s/captions_%s2014.json' %(annotation_path, 'train')))
+    all_caps = {'info': train_caps['info'],
+                'licenses': train_caps['licenses'],
+                'images': val_caps['images'] + train_caps['images'],
+                'annotations': val_caps['annotations'] + train_caps['annotations']}
+
+    return all_caps 
+
+def combine_coco_instances(annotation_path):
+
+    if not os.path.exists('%s/instances_%s2014.json' %(annotation_path, 'val')):
+        raise Exception("Please download MSCOCO instance annotations for val set")
+    if not os.path.exists('%s/instances_%s2014.json' %(annotation_path, 'train')):
+        raise Exception("Please download MSCOCO instance annotations for train set")
+
+    val_instances = json.load(open('%s/instances_%s2014.json' %(annotation_path, 'val')))
+    train_instances = json.load(open('%s/instances_%s2014.json' %(annotation_path, 'train')))
+    all_instances = {'info': train_instances['info'],
+                     'licenses': train_instances['licenses'],
+                     'type': train_instances['licenses'],
+                     'categories': train_instances['categories'],
+                     'images': train_instances['images'] + val_instances['images'],
+                     'annotations': val_instances['annotations'] + train_instances['annotations']}
+
+    return all_instances 
+
 class CHAIR(object):
 
     def __init__(self, imids, coco_path):
