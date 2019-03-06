@@ -11,8 +11,7 @@ table1_tags = [('LRCN', 'lrcn_beam5_test', 'lrcn-sc_beam5_test'),
                ('att2in', 'att2in_beam5_test', 'att2in-sc_beam5_test'),
                ('TD', 'td_beam5_test', 'td-sc_beam5_test'),
                ('TD-BB', 'td-bb_beam5_test', 'td-bb-sc_beam5_test'),
-               ('NBT', 'nbt_beam5_test'),
-               ('GAN', 'baseline-gan_beam5_test', 'gan_beam5_test')] 
+               ('NBT', 'nbt_beam5_test')]
 
 _, imids, _ = chair.load_generated_captions(sentence_template %table1_tags[0][1])
 
