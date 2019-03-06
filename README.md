@@ -41,7 +41,7 @@ Example usage is:
 
 where ```cap_file``` corresponds to a json file with your generated captions and ```coco_path``` points to where MSCOCO annotations are stored.
 
-We expect generated sentences to be stored as a decitionary with the following keys:
+We expect generated sentences to be stored as a dictionary with the following keys:
 
 * overall:  metrics from the COCO evaluation toolkit computed over the entire dataset.
 * imgToEval: a dictionary with keys corresponding to image ids and values with a caption, image_id, and sentence metrics for the particular caption.
