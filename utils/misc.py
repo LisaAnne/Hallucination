@@ -1,5 +1,3 @@
-from pycocotools.coco import COCO
-from pycocoevalcap.eval import COCOEvalCap
 import os
 import sys
 import json
@@ -56,33 +54,6 @@ def get_consistency(tag, annotation_path, robust=False):
     
     return scores['CHAIRi'], lm_consistency, im_consistency  
  
-def get_sentence_scores(cap_file, annFile):
-
-    #assume cap file is in format output by self critical code.
-    #need to resave into a tmp file for coco to work
-
-    caps = json.load(open(cap_file))
-    sentences = [{'caption': item['caption'], 'image_id': item['image_id']} for item in caps['imgToEval'].values()]
-    #save into tmp file
-    with open('tmp.json', 'w') as outfile:
-        json.dump(sentences, outfile)
-
-    coco = COCO(annFile)
-    cocoRes = coco.loadRes('tmp.json')
-    os.remove('tmp.json')
-    cocoEval = COCOEvalCap(coco, cocoRes)
-    cocoEval.params['image_id'] = cocoRes.getImgIds()
-    
-    cocoEval.evaluate()    
-
-    imgToEval = cocoEval.imgToEval
-    for sentence in sentences:
-        imgToEval[sentence['image_id']]['caption'] = sentence['caption']
-
-    caps['imgToEval'] = imgToEval    
-    with open(cap_file, 'w') as outfile:
-        json.dump(caps, outfile)
-
 def score_correlation(cap_file, quiet=False):
     
     caps = json.load(open(cap_file))
