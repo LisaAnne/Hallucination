@@ -24,7 +24,9 @@ If you do not already have them, they can be downloaded [here](http://images.coc
 
 **Replicating Results**
 
-After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py``` and ```table3.py``` (example usage ```python table1.py```).
+After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py```, ```table3.py```, ```table4.py``` and ```figure6.py``` (example usage ```python table1.py```).
+If you would like to run ```figure4.py``` you will need to download some intermediate features for computing the image consistency [here](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4).
+Place this under ```outputs``` and unzip the file.
 These scripts call on ```utils/chair.py``` to compute the CHAIR metric.  See below for more details on ```utils/chair.py```.
 
 **Evaluating CHAIR**
@@ -45,3 +47,10 @@ We expect generated sentences to be stored as a decitionary with the following k
 
 Note that this is the format of the captions output by the open sourced code [here](https://github.com/ruotianluo/self-critical.pytorch), 
 which we used to replicate most of the models presented in the paper.
+
+**Language and Image Model Consistency**
+
+To compute language and image consistency, we trained an classifier to predict class labels given an image and a language model to predict the next word in a sentence given all previous words in a sentence.
+You can access the labels predicted by our language model in ```outputs/image_classifier``` and the words predicted by our language model [here](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4).
+Once you have these intermediate features you can look at ```utils/lm_consistency.py``` and ```utils/im_consistency.py``` to understand how these metrics are computed.
+Running ```figure4.py``` will outputs the results from our paper (constructing the actual bar plot is left as an exercise to the reader).
