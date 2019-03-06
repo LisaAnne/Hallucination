@@ -3,7 +3,6 @@ import json
 import pickle as pkl
 import pdb
 import numpy as np
-from make_plural import *
 from nltk import word_tokenize
 from pattern.en import singularize
 import nltk

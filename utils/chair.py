@@ -105,7 +105,7 @@ class CHAIR(object):
         Add objects taken from MSCOCO segmentation masks
         '''
 
-        coco_segments = json.load(open(self.coco_path + '/instances_all2014.json'))
+        coco_segments = combine_coco_instances(self.coco_path )
         segment_annotations = coco_segments['annotations']
 
         #make dict linking object name to ids
@@ -129,7 +129,7 @@ class CHAIR(object):
         Add objects taken from MSCOCO ground truth captions 
         '''
 
-        coco_caps = combine_coco(self.coco_path)
+        coco_caps = combine_coco_captions(self.coco_path)
         caption_annotations = coco_caps['annotations']
 
         for i, annotation in enumerate(caption_annotations):

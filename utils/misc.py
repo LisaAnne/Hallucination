@@ -7,7 +7,7 @@ import numpy as np
 import lm_consistency as LM
 import im_consistency as IM
 
-def combine_coco(annotation_path):
+def combine_coco_captions(annotation_path):
     val_caps = json.load(open('%s/captions_%s2014.json' %(annotation_path, 'val')))
     train_caps = json.load(open('%s/captions_%s2014.json' %(annotation_path, 'train')))
     all_caps = {'info': train_caps['info'],
@@ -16,6 +16,18 @@ def combine_coco(annotation_path):
                 'annotations': val_caps['annotations'] + train_caps['annotations']}
 
     return all_caps 
+
+def combine_coco_instances(annotation_path):
+    val_instances = json.load(open('%s/instances_%s2014.json' %(annotation_path, 'val')))
+    train_instances = json.load(open('%s/instances_%s2014.json' %(annotation_path, 'train')))
+    all_instances = {'info': train_instances['info'],
+                     'licenses': train_instances['licenses'],
+                     'type': train_instances['licenses'],
+                     'categories': train_instances['categories'],
+                     'images': train_instances['images'] + val_instances['images'],
+                     'annotations': val_instances['annotations'] + train_instances['annotations']}
+
+    return all_instances 
 
 def hallucination_file_to_dict(hallucinated_json):
 
