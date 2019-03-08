@@ -32,8 +32,7 @@ Please see the *Language and Image Model Consistency* section below.
 
 **Evaluating CHAIR**
 
-See ```utils/chair.py``` to understand how we compute the CHAIRs and CHAIRi metrics.  
-Evaluate generated sentences by inputting a path to the generated sentences as well as the path which includes coco annotations.
+See ```utils/chair.py``` to understand how we compute the CHAIRs and CHAIRi metrics.  Evaluate generated sentences by inputting a path to the generated sentences as well as the path which includes coco annotations.
 
 Example usage is:
 
