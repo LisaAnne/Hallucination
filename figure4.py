@@ -19,12 +19,12 @@ print "Model\tCHAIRi\tLM Consistency\tIM Consistency"
 
 for tag in figure4_tags_karpathy:
 
-    chair, lm_consistency, im_consistency = misc.get_consistency(tag[1],
-                                                                 args.annotation_path, 
-                                                                 robust=False)
+    chair_i, lm_consistency, im_consistency = misc.get_consistency(tag[1],
+                                                                  args.annotation_path, 
+                                                                  robust=False)
     
-    print "%s\t%0.02f\t%0.04f\t\t%0.04f" %(tag[0], 
-                                         chair*100, 
+    print "%s\t%0.04f\t%0.04f\t\t%0.04f" %(tag[0], 
+                                         chair_i, 
                                          lm_consistency,
                                          im_consistency)
 
@@ -37,13 +37,26 @@ figure4_tags_robust = [('TD', 'td-robust_beam1_test'),
                        ('Single', 'td-single-robust_beam1_test'),
                        ('FC', 'td-fc-robust_beam1_test')] 
 
+#generate hallucination files for robust split for fig 4
+evaluator = None
+output_template = "output/hallucination/hallucinated_words_%s.json" 
+sentence_template = "generated_sentences/%s.json" 
+for tag in figure4_tags_robust:
+    if not os.path.exists(output_template %tag[1]):
+        if not evaluator:
+            _, imids, _ = chair.load_generated_captions(sentence_template %figure4_tags_robust[0][1])
+            evaluator = chair.CHAIR(imids, args.annotation_path)
+            evaluator.get_annotations()
+        cap_dict = evaluator.compute_chair(sentence_template %tag[1])
+        chair.save_hallucinated_words(sentence_template %tag[1], cap_dict)
+
 for tag in figure4_tags_robust:
 
-    chair, lm_consistency, im_consistency = misc.get_consistency(tag[1], 
-                                                                 args.annotation_path, 
-                                                                 robust=True)
+    chair_i, lm_consistency, im_consistency = misc.get_consistency(tag[1], 
+                                                                  args.annotation_path, 
+                                                                  robust=True)
     
-    print "%s\t%0.02f\t%0.04f\t\t%0.04f" %(tag[0], 
-                                         chair*100, 
+    print "%s\t%0.04f\t%0.04f\t\t%0.04f" %(tag[0], 
+                                         chair_i, 
                                          lm_consistency,
                                          im_consistency)
