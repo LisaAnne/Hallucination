@@ -36,9 +36,9 @@ See ```utils/chair.py``` to understand how we compute the CHAIRs and CHAIRi metr
 
 Example usage is:
 
-```python utils/chair.py --cap_file generated_sentences/fc_beam5_test.json --coco_path coco```
+```python utils/chair.py --cap_file generated_sentences/fc_beam5_test.json --annotation_path coco```
 
-where ```cap_file``` corresponds to a json file with your generated captions and ```coco_path``` points to where MSCOCO annotations are stored.
+where ```cap_file``` corresponds to a json file with your generated captions and ```annotation_path``` points to where MSCOCO annotations are stored.
 
 We expect generated sentences to be stored as a dictionary with the following keys:
 
