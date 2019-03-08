@@ -51,10 +51,10 @@ which we used to replicate most of the models presented in the paper.
 **Language and Image Model Consistency**
 
 To compute language and image consistency, we trained a classifier to predict class labels given an image and a language model to predict the next word in a sentence given all previous words in a sentence.
-You can access the labels predicted by our language model in ```outputs/image_classifier``` and the words predicted by our language model [here](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4).
+You can access the labels predicted by our language model in ```output/image_classifier``` and the words predicted by our language model [here](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4).
 To run our code, you ned to first download the [zip file](https://drive.google.com/drive/u/1/folders/1dnci1Kv6ez-hsFOqZt_gwiAv2FTAjDP4) into the main directory and unzip.
 Once you have these intermediate features you can look at ```utils/lm_consistency.py``` and ```utils/im_consistency.py``` to understand how these metrics are computed.
-Running ```figure4.py``` will outputs the results from our paper (constructing the actual bar plot is left as an exercise to the reader).
+Running ```figure4.py``` will output the results from our paper (constructing the actual bar plot is left as an exercise to the reader).
 
 **Captioning Models**
 
