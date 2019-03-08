@@ -21,7 +21,7 @@ License: BSD 2-Clause license
 Run [setup.sh](setup.sh) to download generated sentences used for our analysis.
 Additionally you will need MSCOCO annotations (both the instance segmentations and ground truth captions).
 If you do not already have them, they can be downloaded [here](http://images.cocodataset.org/annotations/annotations_trainval2014.zip).
-Our code also relies on the python [natural language tool kit (nltk)](https://www.nltk.org/).
+You can see other python requirements in [requirements.txt](requirements.txt).
 
 **Replicating Results**
 
