@@ -14,14 +14,16 @@ table4_tags = [('FC', 'fc_beam5_test'),
                ('att2in', 'att2in_beam5_test'),
                ('td', 'td_beam5_test')]
 
+
+_, imids, _ = chair.load_generated_captions(sentence_template %table4_tags[0][1])
+evaluator = chair.CHAIR(imids, args.annotation_path)
+evaluator.get_annotations()
+
 print "Model\tCIDEr\tMETEOR\tSPICE"
 
 for tag in table4_tags:
 
     if not os.path.exists(output_template %tag[1]):
-        _, imids, _ = chair.load_generated_captions(sentence_template %tag[1])
-        evaluator = chair.CHAIR(imids, args.annotation_path)
-        evaluator.get_annotations()
         cap_dict = evaluator.compute_chair(sentence_template %tag[1])
         chair.save_hallucinated_words(sentence_template %tag[1], cap_dict)
         
