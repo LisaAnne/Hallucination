@@ -27,8 +27,10 @@ You can see other python requirements in [requirements.txt](requirements.txt).
 
 After running ```setup.sh``` you should be able to replicate results in our paper by running ```table1.py```, ```table2.py```, ```table3.py```, ```table4.py``` and ```figure6.py``` (example usage ```python table1.py --annotation_path PATH_TO_COCO_ANNOTATIONS``` where ```coco/annotations``` is the default for ```--annotation_path```).
 Our scripts call on ```utils/chair.py``` to compute the CHAIR metric.  See below for more details on ```utils/chair.py```.
-If you would like to run ```figure4.py``` (language and image model consistency) you will need to download some intermediate features.
-Please see the *Language and Image Model Consistency* section below.
+
+If you would like to run ```figure4.py``` (language and image model consistency) you will need to download some intermediate features. Please see the *Language and Image Model Consistency* section below.
+
+For reproducing our results on correlation with human scores, run ```table5.py```. The file with images IDs used in the human evaluation, as well as the avearge human scores for each of the compared models, can be found in ```data/human_scores```.
 
 **Evaluating CHAIR**
 
