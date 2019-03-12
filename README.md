@@ -30,7 +30,7 @@ Our scripts call on ```utils/chair.py``` to compute the CHAIR metric.  See below
 
 If you would like to run ```figure4.py``` (language and image model consistency) you will need to download some intermediate features. Please see the *Language and Image Model Consistency* section below.
 
-For reproducing our results on correlation with human scores, run ```python table5.py```. The file with images IDs used in the human evaluation, as well as the average human scores for each of the compared models, can be found in ```data/human_scores```.
+For reproducing our results on correlation with human scores, run ```python table5.py```. The file with images IDs used in the human evaluation, as well as the average human scores for each of the compared models, will be found in ```data/human_scores```, after running the ```setup.sh```.
 
 **Evaluating CHAIR**
 
