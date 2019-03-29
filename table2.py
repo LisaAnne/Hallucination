@@ -8,7 +8,8 @@ args = parser.parse_args()
 sentence_template = 'generated_sentences/%s.json'
 table2_tags = [('FC', 'fc-robust_beam5_test'),
                ('att2in', 'att2in-robust_beam5_test'),
-               ('TD', 'td-robust_beam5_test')] 
+               ('TD', 'td-robust_beam5_test'), 
+               ('NBT', 'nbt-robust_beam5_test')] 
 
 _, imids, _ = chair.load_generated_captions(sentence_template %table2_tags[0][1])
 
