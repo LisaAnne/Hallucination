@@ -58,6 +58,10 @@ To run our code, you ned to first download the [zip file](https://drive.google.c
 Once you have these intermediate features you can look at ```utils/lm_consistency.py``` and ```utils/im_consistency.py``` to understand how these metrics are computed.
 Running ```figure4.py``` will output the results from our paper (constructing the actual bar plot is left as an exercise to the reader).
 
+**Human Eval**
+
+Replicate the results from our human evaluation by running ```python table5.py```.  Raw human evaluation scores can be found in ```data/human_scores``` after running ```setup.sh```.
+
 **Captioning Models**
 
 We generated sentences for the majority of models by training open source models available [here](https://github.com/ruotianluo/self-critical.pytorch).
